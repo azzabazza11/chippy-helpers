@@ -56,4 +56,4 @@ Open **http://localhost:8080/** — spirit level sensors need a **secure context
 | `service-worker.js` | Offline cache; network-first for HTML |
 | `icon.svg` | App icon |
 
-Version: **1.0.0**
+Version: **1.0.1**

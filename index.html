@@ -426,7 +426,7 @@
       <button type="button" class="btn" id="btn-share">Share</button>
       <button type="button" class="btn" id="btn-reload">Reload</button>
     </div>
-    <p class="ver mono">v1.0.0</p>
+    <p class="ver mono">v1.0.1</p>
   </section>
 
   <!-- LEVEL -->
@@ -584,7 +584,30 @@
 
   <script>
   (() => {
-    const APP_VER = '1.0.0';
+    const APP_VER = '1.0.1';
+
+    /* ---------- orientation lock (Level) ---------- */
+    async function lockOrientation() {
+      try {
+        const orient = screen.orientation;
+        if (!orient || typeof orient.lock !== 'function') return false;
+        // Keep whatever way the phone is already held
+        const type = orient.type || 'portrait';
+        await orient.lock(type);
+        return true;
+      } catch (_) {
+        // Browser tabs often block this; installed / standalone PWA usually works
+        return false;
+      }
+    }
+
+    function unlockOrientation() {
+      try {
+        if (screen.orientation && typeof screen.orientation.unlock === 'function') {
+          screen.orientation.unlock();
+        }
+      } catch (_) { /* ignore */ }
+    }
 
     /* ---------- navigation ---------- */
     const screens = {
@@ -597,7 +620,12 @@
       Object.entries(screens).forEach(([key, el]) => {
         el.classList.toggle('active', key === id);
       });
-      if (id !== 'level') stopSensors();
+      if (id === 'level') {
+        lockOrientation();
+      } else {
+        unlockOrientation();
+        stopSensors();
+      }
       if (id === 'level' && levelMode === 'spirit' && sensorWanted) startSensors();
       if (id === 'balustrade') calcBalustrade();
       window.scrollTo(0, 0);
@@ -726,9 +754,15 @@
         window.addEventListener('deviceorientation', onOrientation, true);
         sensorListening = true;
       }
+      // User gesture — best chance to lock rotation on Android
+      const locked = await lockOrientation();
       await requestWakeLock();
       btnSensor.textContent = 'Stop';
-      setStatus('Live — place phone flat for a spirit level. Calibrate to zero.');
+      setStatus(
+        locked
+          ? 'Live — rotation locked. Place phone flat; Calibrate to zero.'
+          : 'Live — place phone flat; Calibrate to zero. (Add to Home Screen for rotation lock.)'
+      );
     }
 
     function stopSensors() {
