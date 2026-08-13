@@ -1050,6 +1050,44 @@
       location.reload();
     });
 
+    const INSTALL_HINT_IOS = 'On iPhone: tap Share, then Add to Home Screen.';
+    let deferredInstallPrompt = null;
+    function isStandaloneDisplay() {
+      return !!(window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+        window.navigator.standalone === true;
+    }
+    function isIosLike() {
+      const ua = navigator.userAgent || '';
+      return /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    }
+    async function promptInstallApp() {
+      if (isStandaloneDisplay()) {
+        alert('Already installed.');
+        return;
+      }
+      if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        try { await deferredInstallPrompt.userChoice; } catch (_) {}
+        deferredInstallPrompt = null;
+        return;
+      }
+      alert(isIosLike() ? INSTALL_HINT_IOS : 'Use your browser menu → Install app / Add to Home screen');
+    }
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+    });
+    window.addEventListener('appinstalled', () => {
+      deferredInstallPrompt = null;
+    });
+    try {
+      if (new URLSearchParams(location.search).get('install') === '1') {
+        const tryInstall = () => promptInstallApp();
+        window.addEventListener('beforeinstallprompt', () => setTimeout(tryInstall, 50), { once: true });
+        setTimeout(tryInstall, 600);
+      }
+    } catch (_) {}
+
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./service-worker.js').catch(() => {});
