@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#1a1612" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Chippy" />
+  <meta name="description" content="On-site builder helpers: spirit level, slope calc, and balustrade bay layout." />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="./icon.svg" />
+  <title>Chippy Helpers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg0: #1a1612;
+      --bg1: #241e18;
+      --bg2: #2e261f;
+      --panel: #342b22;
+      --ink: #f3ebe0;
+      --muted: #b5a794;
+      --timber: #c4a574;
+      --timber-hot: #e0c08a;
+      --ok: #7cb87a;
+      --bad: #d9785c;
+      --line: rgba(243, 235, 224, 0.12);
+      --safe-t: env(safe-area-inset-top, 0px);
+      --safe-b: env(safe-area-inset-bottom, 0px);
+      --safe-l: env(safe-area-inset-left, 0px);
+      --safe-r: env(safe-area-inset-right, 0px);
+      --radius: 18px;
+      --tap: 48px;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(120% 80% at 10% -10%, #3a2f24 0%, transparent 55%),
+        radial-gradient(90% 70% at 100% 0%, #2a2218 0%, transparent 50%),
+        linear-gradient(180deg, var(--bg1), var(--bg0));
+      color: var(--ink);
+      font-family: "Archivo", system-ui, sans-serif;
+      font-weight: 500;
+    }
+    body {
+      padding:
+        calc(12px + var(--safe-t))
+        calc(16px + var(--safe-r))
+        calc(20px + var(--safe-b))
+        calc(16px + var(--safe-l));
+    }
+    button, input, select { font: inherit; color: inherit; }
+    button {
+      cursor: pointer;
+      border: 0;
+      background: none;
+    }
+    .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+
+    .screen { display: none; animation: fade .22s ease; }
+    .screen.active { display: block; }
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      min-height: var(--tap);
+    }
+    .topbar h1, .topbar h2 {
+      margin: 0;
+      flex: 1;
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #3a3026, #1f1a15);
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+    .brand-mark svg { width: 26px; height: 26px; }
+
+    .btn {
+      min-height: var(--tap);
+      padding: 0 16px;
+      border-radius: 14px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      font-weight: 700;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary {
+      background: linear-gradient(180deg, var(--timber-hot), var(--timber));
+      color: #1a140e;
+      border-color: transparent;
+    }
+    .btn-ghost { background: transparent; }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+
+    .lede {
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.35;
+      max-width: 28rem;
+    }
+
+    .tiles {
+      display: grid;
+      gap: 14px;
+    }
+    .tile {
+      text-align: left;
+      padding: 22px 20px;
+      border-radius: var(--radius);
+      background: linear-gradient(160deg, #3a3027 0%, #2a221b 100%);
+      border: 1px solid var(--line);
+      min-height: 108px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    .tile strong {
+      display: block;
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .tile span { color: var(--muted); line-height: 1.35; }
+
+    .seg {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      padding: 6px;
+      background: rgba(0,0,0,.28);
+      border-radius: 16px;
+      margin-bottom: 16px;
+      border: 1px solid var(--line);
+    }
+    .seg button {
+      min-height: 44px;
+      border-radius: 12px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+    .seg button.active {
+      background: var(--timber);
+      color: #1a140e;
+    }
+
+    .card {
+      background: rgba(52, 43, 34, 0.72);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 14px;
+      backdrop-filter: blur(6px);
+    }
+    .card h3 {
+      margin: 0 0 12px;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .field:last-child { margin-bottom: 0; }
+    .field label {
+      font-size: 0.92rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .field .hint {
+      font-size: 0.8rem;
+      color: var(--muted);
+      opacity: 0.85;
+      font-weight: 500;
+    }
+    .field input, .field select {
+      min-height: var(--tap);
+      padding: 0 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #16120e;
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 1.15rem;
+      font-weight: 600;
+      width: 100%;
+    }
+    .field input:focus, .field select:focus {
+      outline: 2px solid var(--timber);
+      outline-offset: 1px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .results {
+      display: grid;
+      gap: 10px;
+    }
+    .stat {
+      background: #16120e;
+      border-radius: 14px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+    }
+    .stat .k {
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+    .stat .v {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 1.55rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    .stat.big .v { font-size: 2rem; color: var(--timber-hot); }
+    .stat.ok { border-color: rgba(124,184,122,.45); }
+    .stat.bad { border-color: rgba(217,120,92,.55); }
+    .stat.ok .v { color: var(--ok); }
+    .stat.bad .v { color: var(--bad); }
+    .warn {
+      margin-top: 10px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(217,120,92,.15);
+      border: 1px solid rgba(217,120,92,.4);
+      color: #f0c2b4;
+      font-size: 0.95rem;
+      line-height: 1.35;
+      display: none;
+    }
+    .warn.show { display: block; }
+
+    /* Spirit level */
+    .spirit-wrap {
+      display: grid;
+      gap: 14px;
+      justify-items: center;
+    }
+    .bubble-stage {
+      width: min(100%, 320px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 50%, #1c1712 55%, #0d0b09 100%);
+      border: 3px solid var(--timber);
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 40px rgba(0,0,0,.55);
+    }
+    .bubble-stage::before {
+      content: "";
+      position: absolute;
+      inset: 18%;
+      border-radius: 50%;
+      border: 1px dashed rgba(196,165,116,.35);
+      pointer-events: none;
+    }
+    .crosshair {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .crosshair::before, .crosshair::after {
+      content: "";
+      position: absolute;
+      background: rgba(196,165,116,.35);
+    }
+    .crosshair::before { left: 50%; top: 8%; bottom: 8%; width: 1px; transform: translateX(-50%); }
+    .crosshair::after { top: 50%; left: 8%; right: 8%; height: 1px; transform: translateY(-50%); }
+    .bullseye {
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 56px; height: 56px;
+      margin: -28px 0 0 -28px;
+      border-radius: 50%;
+      border: 2px solid rgba(224,192,138,.55);
+      pointer-events: none;
+    }
+    .bubble {
+      position: absolute;
+      width: 44px;
+      height: 44px;
+      margin: -22px 0 0 -22px;
+      border-radius: 50%;
+      left: 50%;
+      top: 50%;
+      background: radial-gradient(circle at 35% 30%, #f5e6c4, #c4a574 55%, #8a734a);
+      box-shadow: 0 2px 8px rgba(0,0,0,.4);
+      transition: background .15s;
+      will-change: transform;
+    }
+    .bubble.levelled {
+      background: radial-gradient(circle at 35% 30%, #d8f0d0, #7cb87a 55%, #4d7a4b);
+    }
+    .axis-bars {
+      width: min(100%, 320px);
+      display: grid;
+      gap: 10px;
+    }
+    .axis {
+      background: #16120e;
+      border-radius: 12px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+    }
+    .axis .lbl {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+    .track {
+      height: 14px;
+      border-radius: 999px;
+      background: #0d0b09;
+      position: relative;
+      overflow: hidden;
+    }
+    .track .fill {
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 50%;
+      width: 2px;
+      background: var(--timber);
+      transform-origin: center;
+    }
+    .sensor-status {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+    .sensor-status.error { color: var(--bad); }
+
+    .footer-tools {
+      margin-top: 22px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .ver {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      opacity: 0.7;
+    }
+
+    /* Balustrade SVG */
+    .bay-viz {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #16120e;
+      border: 1px solid var(--line);
+      padding: 10px;
+    }
+    .bay-viz svg { width: 100%; height: auto; display: block; }
+
+    .mode-pane { display: none; }
+    .mode-pane.active { display: block; }
+
+    @media (min-width: 720px) {
+      body { max-width: 520px; margin: 0 auto; }
+    }
+    @media (orientation: landscape) and (max-height: 500px) {
+      .bubble-stage { width: min(42vh, 220px); }
+      .spirit-wrap { grid-template-columns: auto 1fr; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <!-- HUB -->
+  <section id="hub" class="screen active" aria-label="Chippy Helpers home">
+    <div class="topbar">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none"><rect x="4" y="12" width="24" height="8" rx="4" stroke="#c4a574" stroke-width="2"/><circle cx="16" cy="16" r="2.5" fill="#e0c08a"/></svg>
+      </div>
+      <h1>Chippy Helpers</h1>
+    </div>
+    <p class="lede">On-site tools for the phone in your pouch. Level a surface or knock out a balustrade bay layout.</p>
+    <div class="tiles">
+      <button type="button" class="tile" data-nav="level">
+        <strong>Level</strong>
+        <span>Spirit bubble from phone sensors, plus rise/run slope &amp; fall.</span>
+      </button>
+      <button type="button" class="tile" data-nav="balustrade">
+        <strong>Balustrade</strong>
+        <span>Bay layout: posts, equal baluster gaps, max 100&nbsp;mm clear.</span>
+      </button>
+    </div>
+    <div class="footer-tools">
+      <button type="button" class="btn" id="btn-share">Share</button>
+      <button type="button" class="btn" id="btn-reload">Reload</button>
+    </div>
+    <p class="ver mono">v1.0.0</p>
+  </section>
+
+  <!-- LEVEL -->
+  <section id="level" class="screen" aria-label="Level tool">
+    <div class="topbar">
+      <button type="button" class="btn btn-ghost" data-nav="hub" aria-label="Back">←</button>
+      <h2>Level</h2>
+    </div>
+    <div class="seg" role="tablist" aria-label="Level mode">
+      <button type="button" class="active" data-level-mode="spirit" role="tab" aria-selected="true">Spirit</button>
+      <button type="button" data-level-mode="slope" role="tab" aria-selected="false">Slope</button>
+    </div>
+
+    <div id="mode-spirit" class="mode-pane active">
+      <div class="card">
+        <div class="spirit-wrap">
+          <div class="bubble-stage" id="bubble-stage" aria-hidden="true">
+            <div class="crosshair"></div>
+            <div class="bullseye"></div>
+            <div class="bubble" id="bubble"></div>
+          </div>
+          <div class="axis-bars">
+            <div class="axis">
+              <div class="lbl"><span>Roll</span><span class="mono" id="roll-val">—</span></div>
+              <div class="track"><div class="fill" id="roll-bar"></div></div>
+            </div>
+            <div class="axis">
+              <div class="lbl"><span>Pitch</span><span class="mono" id="pitch-val">—</span></div>
+              <div class="track"><div class="fill" id="pitch-bar"></div></div>
+            </div>
+          </div>
+        </div>
+        <p class="sensor-status" id="sensor-status">Tap Start to use phone sensors (needs HTTPS).</p>
+        <div class="btn-row">
+          <button type="button" class="btn btn-primary" id="btn-sensor">Start</button>
+          <button type="button" class="btn" id="btn-calibrate">Calibrate</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="mode-slope" class="mode-pane">
+      <div class="card">
+        <h3>Rise &amp; run</h3>
+        <div class="grid-2">
+          <div class="field">
+            <label for="slope-rise">Rise / fall (mm)</label>
+            <input id="slope-rise" type="number" inputmode="decimal" value="100" min="0" step="1" />
+          </div>
+          <div class="field">
+            <label for="slope-run">Run (mm)</label>
+            <input id="slope-run" type="number" inputmode="decimal" value="1000" min="0" step="1" />
+          </div>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="btn-swap-rr">Swap rise ↔ run</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Results</h3>
+        <div class="results grid-2">
+          <div class="stat big"><div class="k">Grade</div><div class="v mono" id="out-grade">—</div></div>
+          <div class="stat big"><div class="k">Ratio</div><div class="v mono" id="out-ratio">—</div></div>
+          <div class="stat"><div class="k">Angle</div><div class="v mono" id="out-angle">—</div></div>
+          <div class="stat"><div class="k">Fall per metre</div><div class="v mono" id="out-per-m">—</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Inverse — target ratio</h3>
+        <div class="grid-2">
+          <div class="field">
+            <label for="target-run">Known run (mm)</label>
+            <input id="target-run" type="number" inputmode="decimal" value="2400" min="0" step="1" />
+          </div>
+          <div class="field">
+            <label for="target-ratio">Target 1 : x</label>
+            <input id="target-ratio" type="number" inputmode="decimal" value="50" min="0.01" step="0.1" />
+          </div>
+        </div>
+        <div class="results" style="margin-top:12px">
+          <div class="stat big"><div class="k">Required rise / fall</div><div class="v mono" id="out-req-rise">—</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BALUSTRADE -->
+  <section id="balustrade" class="screen" aria-label="Balustrade calculator">
+    <div class="topbar">
+      <button type="button" class="btn btn-ghost" data-nav="hub" aria-label="Back">←</button>
+      <h2>Balustrade</h2>
+    </div>
+
+    <div class="card">
+      <h3>Run</h3>
+      <div class="field">
+        <label for="run-length">Overall run length (mm)</label>
+        <span class="hint">Centre-to-centre of end posts (includes end posts in the run).</span>
+        <input id="run-length" type="number" inputmode="decimal" value="3600" min="1" step="1" />
+      </div>
+      <div class="seg" role="tablist" aria-label="Post spacing mode" style="margin-top:8px">
+        <button type="button" class="active" data-post-mode="centres" role="tab">Post centres</button>
+        <button type="button" data-post-mode="bays" role="tab">Bay count</button>
+      </div>
+      <div class="field" id="field-centres">
+        <label for="post-centres">Post centres (mm)</label>
+        <input id="post-centres" type="number" inputmode="decimal" value="1200" min="1" step="1" />
+      </div>
+      <div class="field" id="field-bays" style="display:none">
+        <label for="bay-count">Number of bays</label>
+        <input id="bay-count" type="number" inputmode="numeric" value="3" min="1" step="1" />
+      </div>
+      <div class="field">
+        <label for="post-width">Post width (mm)</label>
+        <span class="hint">Used to get clear opening between post faces.</span>
+        <input id="post-width" type="number" inputmode="decimal" value="90" min="0" step="1" />
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Balusters</h3>
+      <div class="grid-2">
+        <div class="field">
+          <label for="baluster-w">Width (mm)</label>
+          <input id="baluster-w" type="number" inputmode="decimal" value="42" min="1" step="1" />
+        </div>
+        <div class="field">
+          <label for="max-gap">Max clear gap (mm)</label>
+          <input id="max-gap" type="number" inputmode="decimal" value="100" min="1" step="1" />
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Layout</h3>
+      <div class="results grid-2" id="bal-results">
+        <div class="stat"><div class="k">Posts</div><div class="v mono" id="out-posts">—</div></div>
+        <div class="stat"><div class="k">Bays</div><div class="v mono" id="out-bays">—</div></div>
+        <div class="stat"><div class="k">Centres</div><div class="v mono" id="out-centres">—</div></div>
+        <div class="stat"><div class="k">Clear opening</div><div class="v mono" id="out-opening">—</div></div>
+        <div class="stat"><div class="k">Balusters / bay</div><div class="v mono" id="out-per-bay">—</div></div>
+        <div class="stat"><div class="k">Total balusters</div><div class="v mono" id="out-total-bal">—</div></div>
+        <div class="stat big ok" id="stat-gap" style="grid-column:1/-1">
+          <div class="k">Equal clear gap</div>
+          <div class="v mono" id="out-gap">—</div>
+        </div>
+      </div>
+      <div class="warn" id="bal-warn"></div>
+    </div>
+
+    <div class="card">
+      <h3>One bay</h3>
+      <div class="bay-viz" id="bay-viz" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <script>
+  (() => {
+    const APP_VER = '1.0.0';
+
+    /* ---------- navigation ---------- */
+    const screens = {
+      hub: document.getElementById('hub'),
+      level: document.getElementById('level'),
+      balustrade: document.getElementById('balustrade')
+    };
+
+    function showScreen(id) {
+      Object.entries(screens).forEach(([key, el]) => {
+        el.classList.toggle('active', key === id);
+      });
+      if (id !== 'level') stopSensors();
+      if (id === 'level' && levelMode === 'spirit' && sensorWanted) startSensors();
+      if (id === 'balustrade') calcBalustrade();
+      window.scrollTo(0, 0);
+    }
+
+    document.querySelectorAll('[data-nav]').forEach(btn => {
+      btn.addEventListener('click', () => showScreen(btn.getAttribute('data-nav')));
+    });
+
+    /* ---------- Level mode tabs ---------- */
+    let levelMode = 'spirit';
+    document.querySelectorAll('[data-level-mode]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        levelMode = btn.getAttribute('data-level-mode');
+        document.querySelectorAll('[data-level-mode]').forEach(b => {
+          const on = b === btn;
+          b.classList.toggle('active', on);
+          b.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        document.getElementById('mode-spirit').classList.toggle('active', levelMode === 'spirit');
+        document.getElementById('mode-slope').classList.toggle('active', levelMode === 'slope');
+        if (levelMode === 'spirit' && sensorWanted) startSensors();
+        else if (levelMode !== 'spirit') stopSensors();
+        if (levelMode === 'slope') calcSlope();
+      });
+    });
+
+    /* ---------- Spirit level ---------- */
+    const bubble = document.getElementById('bubble');
+    const rollVal = document.getElementById('roll-val');
+    const pitchVal = document.getElementById('pitch-val');
+    const rollBar = document.getElementById('roll-bar');
+    const pitchBar = document.getElementById('pitch-bar');
+    const sensorStatus = document.getElementById('sensor-status');
+    const btnSensor = document.getElementById('btn-sensor');
+
+    let sensorWanted = false;
+    let sensorListening = false;
+    let wakeLock = null;
+    let calib = { beta: 0, gamma: 0 };
+    let lastOrient = null;
+    const LEVEL_TOL = 0.4; // degrees
+    const MAX_TILT = 25; // visual clamp
+
+    function setStatus(msg, isError) {
+      sensorStatus.textContent = msg;
+      sensorStatus.classList.toggle('error', !!isError);
+    }
+
+    async function requestWakeLock() {
+      try {
+        if ('wakeLock' in navigator) {
+          wakeLock = await navigator.wakeLock.request('screen');
+          wakeLock.addEventListener('release', () => { wakeLock = null; });
+        }
+      } catch (_) { /* ignore */ }
+    }
+
+    function releaseWakeLock() {
+      if (wakeLock) {
+        wakeLock.release().catch(() => {});
+        wakeLock = null;
+      }
+    }
+
+    function onOrientation(e) {
+      // beta ≈ front-back (pitch), gamma ≈ left-right (roll) when phone is flat / upright
+      let beta = e.beta;
+      let gamma = e.gamma;
+      if (beta == null || gamma == null) {
+        setStatus('No orientation data from this device.', true);
+        return;
+      }
+      lastOrient = { beta, gamma };
+
+      // When phone is nearly flat (screen up), beta≈0 gamma≈0.
+      // When upright portrait, beta≈90 — still useful for wall plumb-ish.
+      const roll = gamma - calib.gamma;
+      const pitch = beta - calib.beta;
+
+      const rClamped = Math.max(-MAX_TILT, Math.min(MAX_TILT, roll));
+      const pClamped = Math.max(-MAX_TILT, Math.min(MAX_TILT, pitch));
+
+      // Bubble moves opposite to tilt (like liquid)
+      const px = (-rClamped / MAX_TILT) * 38; // % of radius-ish
+      const py = (pClamped / MAX_TILT) * 38;
+      bubble.style.transform = `translate(${px}%, ${py}%)`;
+
+      const levelled = Math.abs(roll) <= LEVEL_TOL && Math.abs(pitch) <= LEVEL_TOL;
+      bubble.classList.toggle('levelled', levelled);
+
+      rollVal.textContent = `${roll.toFixed(1)}°`;
+      pitchVal.textContent = `${pitch.toFixed(1)}°`;
+
+      // Axis bars: width from centre
+      const rPct = (rClamped / MAX_TILT) * 50;
+      const pPct = (pClamped / MAX_TILT) * 50;
+      rollBar.style.left = rPct >= 0 ? '50%' : `${50 + rPct}%`;
+      rollBar.style.width = `${Math.abs(rPct)}%`;
+      pitchBar.style.left = pPct >= 0 ? '50%' : `${50 + pPct}%`;
+      pitchBar.style.width = `${Math.abs(pPct)}%`;
+    }
+
+    async function startSensors() {
+      sensorWanted = true;
+      if (!window.isSecureContext) {
+        setStatus('Sensors need HTTPS (or localhost). Open the GitHub Pages URL in Chrome.', true);
+        btnSensor.textContent = 'Start';
+        return;
+      }
+      try {
+        if (typeof DeviceOrientationEvent !== 'undefined' &&
+            typeof DeviceOrientationEvent.requestPermission === 'function') {
+          const perm = await DeviceOrientationEvent.requestPermission();
+          if (perm !== 'granted') {
+            setStatus('Orientation permission denied.', true);
+            return;
+          }
+        }
+      } catch (err) {
+        setStatus('Could not get orientation permission.', true);
+        return;
+      }
+
+      if (!sensorListening) {
+        window.addEventListener('deviceorientation', onOrientation, true);
+        sensorListening = true;
+      }
+      await requestWakeLock();
+      btnSensor.textContent = 'Stop';
+      setStatus('Live — place phone flat for a spirit level. Calibrate to zero.');
+    }
+
+    function stopSensors() {
+      if (sensorListening) {
+        window.removeEventListener('deviceorientation', onOrientation, true);
+        sensorListening = false;
+      }
+      releaseWakeLock();
+      btnSensor.textContent = 'Start';
+    }
+
+    btnSensor.addEventListener('click', () => {
+      if (sensorListening) {
+        sensorWanted = false;
+        stopSensors();
+        setStatus('Stopped.');
+      } else {
+        startSensors();
+      }
+    });
+
+    document.getElementById('btn-calibrate').addEventListener('click', () => {
+      if (!sensorListening || !lastOrient) {
+        setStatus('Start sensors first, then calibrate.', true);
+        return;
+      }
+      calib = { beta: lastOrient.beta, gamma: lastOrient.gamma };
+      setStatus('Calibrated to current attitude.');
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && sensorWanted && levelMode === 'spirit') {
+        requestWakeLock();
+      }
+    });
+
+    /* ---------- Slope calc ---------- */
+    const slopeRise = document.getElementById('slope-rise');
+    const slopeRun = document.getElementById('slope-run');
+    const targetRun = document.getElementById('target-run');
+    const targetRatio = document.getElementById('target-ratio');
+
+    function fmt(n, d = 2) {
+      if (!Number.isFinite(n)) return '—';
+      return Number(n.toFixed(d)).toString();
+    }
+
+    function calcSlope() {
+      const rise = parseFloat(slopeRise.value);
+      const run = parseFloat(slopeRun.value);
+      const outGrade = document.getElementById('out-grade');
+      const outRatio = document.getElementById('out-ratio');
+      const outAngle = document.getElementById('out-angle');
+      const outPerM = document.getElementById('out-per-m');
+
+      if (!(rise >= 0) || !(run > 0)) {
+        outGrade.textContent = '—';
+        outRatio.textContent = '—';
+        outAngle.textContent = '—';
+        outPerM.textContent = '—';
+      } else {
+        const grade = (rise / run) * 100;
+        const ratio = run / rise;
+        const angle = Math.atan(rise / run) * (180 / Math.PI);
+        const perM = (rise / run) * 1000;
+        outGrade.textContent = `${fmt(grade, 2)}%`;
+        outRatio.textContent = rise === 0 ? 'flat' : `1 : ${fmt(ratio, 2)}`;
+        outAngle.textContent = `${fmt(angle, 2)}°`;
+        outPerM.textContent = `${fmt(perM, 1)} mm`;
+      }
+
+      const tr = parseFloat(targetRun.value);
+      const tx = parseFloat(targetRatio.value);
+      const outReq = document.getElementById('out-req-rise');
+      if (!(tr > 0) || !(tx > 0)) outReq.textContent = '—';
+      else outReq.textContent = `${fmt(tr / tx, 1)} mm`;
+    }
+
+    [slopeRise, slopeRun, targetRun, targetRatio].forEach(el => {
+      el.addEventListener('input', calcSlope);
+    });
+    document.getElementById('btn-swap-rr').addEventListener('click', () => {
+      const a = slopeRise.value;
+      slopeRise.value = slopeRun.value;
+      slopeRun.value = a;
+      calcSlope();
+    });
+    calcSlope();
+
+    /* ---------- Balustrade ---------- */
+    let postMode = 'centres';
+    document.querySelectorAll('[data-post-mode]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        postMode = btn.getAttribute('data-post-mode');
+        document.querySelectorAll('[data-post-mode]').forEach(b => b.classList.toggle('active', b === btn));
+        document.getElementById('field-centres').style.display = postMode === 'centres' ? '' : 'none';
+        document.getElementById('field-bays').style.display = postMode === 'bays' ? '' : 'none';
+        calcBalustrade();
+      });
+    });
+
+    const balInputs = ['run-length', 'post-centres', 'bay-count', 'post-width', 'baluster-w', 'max-gap'];
+    balInputs.forEach(id => {
+      document.getElementById(id).addEventListener('input', calcBalustrade);
+    });
+
+    function calcBalustrade() {
+      const run = parseFloat(document.getElementById('run-length').value);
+      const postW = parseFloat(document.getElementById('post-width').value);
+      const balW = parseFloat(document.getElementById('baluster-w').value);
+      const maxGap = parseFloat(document.getElementById('max-gap').value);
+      const warn = document.getElementById('bal-warn');
+      const statGap = document.getElementById('stat-gap');
+
+      const setDash = () => {
+        ['out-posts','out-bays','out-centres','out-opening','out-per-bay','out-total-bal','out-gap']
+          .forEach(id => { document.getElementById(id).textContent = '—'; });
+        document.getElementById('bay-viz').innerHTML = '';
+        statGap.classList.remove('ok', 'bad');
+        statGap.classList.add('ok');
+      };
+
+      if (!(run > 0) || !(balW > 0) || !(maxGap > 0) || !(postW >= 0)) {
+        warn.className = 'warn show';
+        warn.textContent = 'Enter positive run, baluster width, and max gap.';
+        setDash();
+        return;
+      }
+
+      let bays, centres;
+      if (postMode === 'centres') {
+        centres = parseFloat(document.getElementById('post-centres').value);
+        if (!(centres > 0)) {
+          warn.className = 'warn show';
+          warn.textContent = 'Post centres must be greater than 0.';
+          setDash();
+          return;
+        }
+        // Prefer equal bays that fit the run: round to nearest whole bay count
+        bays = Math.max(1, Math.round(run / centres));
+        centres = run / bays;
+      } else {
+        bays = parseInt(document.getElementById('bay-count').value, 10);
+        if (!(bays >= 1)) {
+          warn.className = 'warn show';
+          warn.textContent = 'Need at least 1 bay.';
+          setDash();
+          return;
+        }
+        centres = run / bays;
+      }
+
+      const posts = bays + 1;
+      // Clear opening between faces of adjacent posts
+      const opening = centres - postW;
+      if (opening <= 0) {
+        warn.className = 'warn show';
+        warn.textContent = 'Post width is ≥ centres — no clear opening between posts.';
+        setDash();
+        document.getElementById('out-posts').textContent = String(posts);
+        document.getElementById('out-bays').textContent = String(bays);
+        document.getElementById('out-centres').textContent = `${fmt(centres, 1)} mm`;
+        return;
+      }
+
+      if (balW >= opening) {
+        warn.className = 'warn show';
+        warn.textContent = 'Baluster wider than clear opening — reduce baluster or post centres.';
+        setDash();
+        document.getElementById('out-posts').textContent = String(posts);
+        document.getElementById('out-bays').textContent = String(bays);
+        document.getElementById('out-centres').textContent = `${fmt(centres, 1)} mm`;
+        document.getElementById('out-opening').textContent = `${fmt(opening, 1)} mm`;
+        return;
+      }
+
+      // Min balusters so equal gap ≤ maxGap:
+      // gap = (opening - n*w) / (n+1) ≤ maxGap
+      // opening - n*w ≤ maxGap*(n+1)
+      // opening - maxGap ≤ n*(w + maxGap)
+      let n = Math.ceil((opening - maxGap) / (balW + maxGap));
+      if (n < 0) n = 0;
+      // If opening itself ≤ maxGap, zero balusters is fine
+      if (opening <= maxGap) n = 0;
+
+      let gap = (opening - n * balW) / (n + 1);
+      // Guard float / impossible
+      if (gap < 0) {
+        warn.className = 'warn show';
+        warn.textContent = 'Cannot fit balusters with equal gaps in this opening.';
+        setDash();
+        return;
+      }
+
+      // Nudge n up if float pushed gap over max
+      while (gap > maxGap + 1e-9) {
+        n += 1;
+        gap = (opening - n * balW) / (n + 1);
+        if (gap < 0) {
+          warn.className = 'warn show';
+          warn.textContent = 'Cannot keep clear gap ≤ max with equal spacing.';
+          setDash();
+          return;
+        }
+      }
+
+      const pass = gap <= maxGap + 1e-6;
+      warn.className = 'warn';
+      warn.textContent = '';
+
+      document.getElementById('out-posts').textContent = String(posts);
+      document.getElementById('out-bays').textContent = String(bays);
+      document.getElementById('out-centres').textContent = `${fmt(centres, 1)} mm`;
+      document.getElementById('out-opening').textContent = `${fmt(opening, 1)} mm`;
+      document.getElementById('out-per-bay').textContent = String(n);
+      document.getElementById('out-total-bal').textContent = String(n * bays);
+      document.getElementById('out-gap').textContent = `${fmt(gap, 1)} mm`;
+      statGap.classList.toggle('ok', pass);
+      statGap.classList.toggle('bad', !pass);
+
+      renderBay(opening, balW, n, gap, postW);
+    }
+
+    function renderBay(opening, balW, n, gap, postW) {
+      const H = 120;
+      const postDraw = Math.max(12, Math.min(28, postW * 0.25));
+      const totalW = postDraw * 2 + opening;
+      const scale = 320 / totalW;
+      const W = totalW * scale;
+      const pw = postDraw * scale;
+      const open = opening * scale;
+      const bw = balW * scale;
+      const g = gap * scale;
+
+      let x = pw;
+      let bals = '';
+      for (let i = 0; i < n; i++) {
+        x += g;
+        bals += `<rect x="${x.toFixed(2)}" y="18" width="${bw.toFixed(2)}" height="84" rx="1.5" fill="#c4a574"/>`;
+        x += bw;
+      }
+
+      const svg = `
+<svg viewBox="0 0 ${W.toFixed(2)} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="One bay elevation">
+  <rect x="0" y="10" width="${pw.toFixed(2)}" height="100" fill="#8a734a"/>
+  <rect x="${(W - pw).toFixed(2)}" y="10" width="${pw.toFixed(2)}" height="100" fill="#8a734a"/>
+  <rect x="${pw.toFixed(2)}" y="14" width="${open.toFixed(2)}" height="8" fill="#e0c08a"/>
+  <rect x="${pw.toFixed(2)}" y="98" width="${open.toFixed(2)}" height="8" fill="#e0c08a"/>
+  ${bals}
+</svg>`;
+      document.getElementById('bay-viz').innerHTML = svg;
+    }
+
+    calcBalustrade();
+
+    /* ---------- Share / Reload / SW ---------- */
+    document.getElementById('btn-share').addEventListener('click', async () => {
+      const url = location.href.split('#')[0];
+      try {
+        if (navigator.share) {
+          await navigator.share({ title: 'Chippy Helpers', url });
+          return;
+        }
+      } catch (_) { /* cancelled */ }
+      try {
+        await navigator.clipboard.writeText(url);
+        alert('Link copied.');
+      } catch (_) {
+        prompt('Copy link:', url);
+      }
+    });
+
+    document.getElementById('btn-reload').addEventListener('click', async () => {
+      try {
+        if ('serviceWorker' in navigator) {
+          const regs = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(regs.map(r => r.unregister()));
+        }
+        if ('caches' in window) {
+          const keys = await caches.keys();
+          await Promise.all(keys.map(k => caches.delete(k)));
+        }
+      } catch (_) { /* ignore */ }
+      location.reload();
+    });
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+      });
+    }
+  })();
+  </script>
+</body>
+</html>

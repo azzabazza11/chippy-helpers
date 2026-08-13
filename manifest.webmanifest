@@ -1,0 +1,19 @@
+{
+  "name": "Chippy Helpers",
+  "short_name": "Chippy",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#1a1612",
+  "theme_color": "#1a1612",
+  "description": "On-site builder helpers: spirit level, slope calc, and balustrade bay layout.",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
