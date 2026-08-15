@@ -3,37 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
-  <meta name="theme-color" content="#1a1612" />
+  <meta name="theme-color" content="#f3f0e8" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Chippy" />
-  <meta name="description" content="On-site builder helpers: spirit level, slope calc, and balustrade bay layout." />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="ABC Done!" />
+  <meta name="description" content="On-site builder tools: spirit level, slope calc, and balustrade bay layout." />
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="icon" href="./icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="./icon.svg" />
-  <title>Chippy Helpers</title>
+  <title>ABC Done! — Free Builder Helper</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@450;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg0: #1a1612;
-      --bg1: #241e18;
-      --bg2: #2e261f;
-      --panel: #342b22;
-      --ink: #f3ebe0;
-      --muted: #b5a794;
-      --timber: #c4a574;
-      --timber-hot: #e0c08a;
-      --ok: #7cb87a;
-      --bad: #d9785c;
-      --line: rgba(243, 235, 224, 0.12);
+      --bg: #f3f0e8;
+      --paper: #fffcf7;
+      --ink: #161411;
+      --muted: #5f5a53;
+      --line: #ddd6c8;
+      --accent: #123c32;
+      --ok: #1b6b45;
+      --bad: #b42318;
+      --timber: #123c32;
+      --timber-hot: #161411;
+      --panel: #fffcf7;
+      --bg0: #f3f0e8;
+      --bg1: #f3f0e8;
       --safe-t: env(safe-area-inset-top, 0px);
       --safe-b: env(safe-area-inset-bottom, 0px);
       --safe-l: env(safe-area-inset-left, 0px);
       --safe-r: env(safe-area-inset-right, 0px);
-      --radius: 18px;
+      --radius: 20px;
       --tap: 48px;
     }
 
@@ -41,13 +43,10 @@
     html, body {
       margin: 0;
       min-height: 100%;
-      background:
-        radial-gradient(120% 80% at 10% -10%, #3a2f24 0%, transparent 55%),
-        radial-gradient(90% 70% at 100% 0%, #2a2218 0%, transparent 50%),
-        linear-gradient(180deg, var(--bg1), var(--bg0));
+      background: var(--bg);
       color: var(--ink);
-      font-family: "Archivo", system-ui, sans-serif;
-      font-weight: 500;
+      font-family: "Outfit", system-ui, sans-serif;
+      font-weight: 450;
     }
     body {
       padding:
@@ -81,15 +80,16 @@
     .topbar h1, .topbar h2 {
       margin: 0;
       flex: 1;
-      font-size: 1.35rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 1.55rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
     }
     .brand-mark {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      background: linear-gradient(145deg, #3a3026, #1f1a15);
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: var(--paper);
       border: 1px solid var(--line);
       display: grid;
       place-items: center;
@@ -100,83 +100,82 @@
     .btn {
       min-height: var(--tap);
       padding: 0 16px;
-      border-radius: 14px;
-      background: var(--panel);
+      border-radius: 999px;
+      background: var(--paper);
       border: 1px solid var(--line);
-      font-weight: 700;
+      font-weight: 600;
     }
     .btn:active { transform: scale(0.98); }
     .btn-primary {
-      background: linear-gradient(180deg, var(--timber-hot), var(--timber));
-      color: #1a140e;
-      border-color: transparent;
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
     }
-    .btn-ghost { background: transparent; }
+    .btn-ghost { background: transparent; border-color: transparent; }
     .btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
 
     .lede {
       margin: 0 0 22px;
       color: var(--muted);
-      font-size: 1.02rem;
-      line-height: 1.35;
+      font-size: 1.05rem;
+      line-height: 1.45;
       max-width: 28rem;
     }
 
     .tiles {
       display: grid;
-      gap: 14px;
+      gap: 12px;
     }
     .tile {
       text-align: left;
       padding: 22px 20px;
       border-radius: var(--radius);
-      background: linear-gradient(160deg, #3a3027 0%, #2a221b 100%);
+      background: var(--paper);
       border: 1px solid var(--line);
       min-height: 108px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.25);
     }
     .tile strong {
       display: block;
-      font-size: 1.45rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
       margin-bottom: 6px;
     }
-    .tile span { color: var(--muted); line-height: 1.35; }
+    .tile span { color: var(--muted); line-height: 1.4; }
 
     .seg {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      padding: 6px;
-      background: rgba(0,0,0,.28);
-      border-radius: 16px;
+      gap: 4px;
+      padding: 4px;
+      background: var(--paper);
+      border-radius: 999px;
       margin-bottom: 16px;
       border: 1px solid var(--line);
     }
     .seg button {
       min-height: 44px;
-      border-radius: 12px;
-      font-weight: 700;
+      border-radius: 999px;
+      font-weight: 600;
       color: var(--muted);
     }
     .seg button.active {
-      background: var(--timber);
-      color: #1a140e;
+      background: var(--ink);
+      color: var(--paper);
     }
 
     .card {
-      background: rgba(52, 43, 34, 0.72);
+      background: var(--paper);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 16px;
+      padding: 18px;
       margin-bottom: 14px;
-      backdrop-filter: blur(6px);
     }
     .card h3 {
       margin: 0 0 12px;
-      font-size: 0.85rem;
-      letter-spacing: 0.08em;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--muted);
       font-weight: 700;
@@ -191,27 +190,26 @@
     .field label {
       font-size: 0.92rem;
       color: var(--muted);
-      font-weight: 700;
+      font-weight: 600;
     }
     .field .hint {
       font-size: 0.8rem;
       color: var(--muted);
-      opacity: 0.85;
-      font-weight: 500;
+      font-weight: 450;
     }
     .field input, .field select {
       min-height: var(--tap);
       padding: 0 14px;
       border-radius: 14px;
       border: 1px solid var(--line);
-      background: #16120e;
+      background: var(--bg);
       font-family: "IBM Plex Mono", ui-monospace, monospace;
       font-size: 1.15rem;
       font-weight: 600;
       width: 100%;
     }
     .field input:focus, .field select:focus {
-      outline: 2px solid var(--timber);
+      outline: 2px solid var(--accent);
       outline-offset: 1px;
     }
     .grid-2 {
@@ -225,7 +223,7 @@
       gap: 10px;
     }
     .stat {
-      background: #16120e;
+      background: var(--bg);
       border-radius: 14px;
       padding: 14px 16px;
       border: 1px solid var(--line);
@@ -244,18 +242,18 @@
       font-weight: 600;
       letter-spacing: -0.02em;
     }
-    .stat.big .v { font-size: 2rem; color: var(--timber-hot); }
-    .stat.ok { border-color: rgba(124,184,122,.45); }
-    .stat.bad { border-color: rgba(217,120,92,.55); }
+    .stat.big .v { font-size: 2rem; color: var(--accent); }
+    .stat.ok { border-color: #b7dcc8; }
+    .stat.bad { border-color: #f0c4c0; }
     .stat.ok .v { color: var(--ok); }
     .stat.bad .v { color: var(--bad); }
     .warn {
       margin-top: 10px;
       padding: 12px 14px;
       border-radius: 12px;
-      background: rgba(217,120,92,.15);
-      border: 1px solid rgba(217,120,92,.4);
-      color: #f0c2b4;
+      background: #fbecea;
+      border: 1px solid #f0c4c0;
+      color: #7a1c16;
       font-size: 0.95rem;
       line-height: 1.35;
       display: none;
@@ -272,19 +270,17 @@
       width: min(100%, 320px);
       aspect-ratio: 1;
       border-radius: 50%;
-      background:
-        radial-gradient(circle at 50% 50%, #1c1712 55%, #0d0b09 100%);
-      border: 3px solid var(--timber);
+      background: radial-gradient(circle at 50% 50%, #24302c 55%, #121816 100%);
+      border: 2px solid var(--accent);
       position: relative;
       overflow: hidden;
-      box-shadow: inset 0 0 40px rgba(0,0,0,.55);
     }
     .bubble-stage::before {
       content: "";
       position: absolute;
       inset: 18%;
       border-radius: 50%;
-      border: 1px dashed rgba(196,165,116,.35);
+      border: 1px dashed rgba(255,252,247,.28);
       pointer-events: none;
     }
     .crosshair {
@@ -295,7 +291,7 @@
     .crosshair::before, .crosshair::after {
       content: "";
       position: absolute;
-      background: rgba(196,165,116,.35);
+      background: rgba(255,252,247,.28);
     }
     .crosshair::before { left: 50%; top: 8%; bottom: 8%; width: 1px; transform: translateX(-50%); }
     .crosshair::after { top: 50%; left: 8%; right: 8%; height: 1px; transform: translateY(-50%); }
@@ -305,7 +301,7 @@
       width: 56px; height: 56px;
       margin: -28px 0 0 -28px;
       border-radius: 50%;
-      border: 2px solid rgba(224,192,138,.55);
+      border: 2px solid rgba(255,252,247,.45);
       pointer-events: none;
     }
     .bubble {
@@ -316,13 +312,11 @@
       border-radius: 50%;
       left: 50%;
       top: 50%;
-      background: radial-gradient(circle at 35% 30%, #f5e6c4, #c4a574 55%, #8a734a);
-      box-shadow: 0 2px 8px rgba(0,0,0,.4);
-      transition: background .15s;
+      background: radial-gradient(circle at 35% 30%, #fffdf8, #d8efe4 55%, #4d8f72);
       will-change: transform;
     }
     .bubble.levelled {
-      background: radial-gradient(circle at 35% 30%, #d8f0d0, #7cb87a 55%, #4d7a4b);
+      background: radial-gradient(circle at 35% 30%, #e8f8ee, #4caf77 55%, #1b6b45);
     }
     .axis-bars {
       width: min(100%, 320px);
@@ -330,7 +324,7 @@
       gap: 10px;
     }
     .axis {
-      background: #16120e;
+      background: var(--bg);
       border-radius: 12px;
       padding: 10px 12px;
       border: 1px solid var(--line);
@@ -346,7 +340,7 @@
     .track {
       height: 14px;
       border-radius: 999px;
-      background: #0d0b09;
+      background: #e6e0d6;
       position: relative;
       overflow: hidden;
     }
@@ -384,7 +378,7 @@
       width: 100%;
       overflow: hidden;
       border-radius: 12px;
-      background: #16120e;
+      background: var(--bg);
       border: 1px solid var(--line);
       padding: 10px;
     }
@@ -404,14 +398,14 @@
 </head>
 <body>
   <!-- HUB -->
-  <section id="hub" class="screen active" aria-label="Chippy Helpers home">
+  <section id="hub" class="screen active" aria-label="ABC Done! home">
     <div class="topbar">
       <div class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 32 32" fill="none"><rect x="4" y="12" width="24" height="8" rx="4" stroke="#c4a574" stroke-width="2"/><circle cx="16" cy="16" r="2.5" fill="#e0c08a"/></svg>
+        <svg viewBox="0 0 32 32" fill="none"><rect x="4" y="12" width="24" height="8" rx="4" stroke="#123c32" stroke-width="2"/><circle cx="16" cy="16" r="2.5" fill="#123c32"/></svg>
       </div>
-      <h1>Chippy Helpers</h1>
+      <h1>ABC Done!</h1>
     </div>
-    <p class="lede">On-site tools for the phone in your pouch. Level a surface or knock out a balustrade bay layout.</p>
+    <p class="lede">Free builder helper — on-site tools for the phone in your pouch. Level a surface or knock out a balustrade bay layout.</p>
     <div class="tiles">
       <button type="button" class="tile" data-nav="level">
         <strong>Level</strong>
@@ -424,10 +418,11 @@
     </div>
     <div class="footer-tools">
       <button type="button" class="btn" id="btn-share">Share</button>
+      <button type="button" class="btn" id="btn-install">Install</button>
       <a class="btn" href="https://azzabazza11.github.io/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center">More apps</a>
       <button type="button" class="btn" id="btn-reload">Reload</button>
     </div>
-    <p class="ver mono">v1.0.1</p>
+    <p class="ver mono">v1.1.0</p>
   </section>
 
   <!-- LEVEL -->
@@ -585,7 +580,7 @@
 
   <script>
   (() => {
-    const APP_VER = '1.0.1';
+    const APP_VER = '1.1.0';
 
     /* ---------- orientation lock (Level) ---------- */
     async function lockOrientation() {
@@ -1024,7 +1019,7 @@
       const url = location.href.split('#')[0];
       try {
         if (navigator.share) {
-          await navigator.share({ title: 'Chippy Helpers', url });
+          await navigator.share({ title: 'ABC Done!', url });
           return;
         }
       } catch (_) { /* cancelled */ }
@@ -1072,6 +1067,11 @@
         return;
       }
       alert(isIosLike() ? INSTALL_HINT_IOS : 'Use your browser menu → Install app / Add to Home screen');
+    }
+    document.getElementById('btn-install')?.addEventListener('click', () => promptInstallApp());
+    if (isStandaloneDisplay()) {
+      const bi = document.getElementById('btn-install');
+      if (bi) bi.hidden = true;
     }
     window.addEventListener('beforeinstallprompt', e => {
       e.preventDefault();

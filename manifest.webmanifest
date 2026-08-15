@@ -1,13 +1,13 @@
 {
-  "name": "Chippy Helpers",
-  "short_name": "Chippy",
+  "name": "ABC Done! — Free Builder Helper",
+  "short_name": "ABC Done!",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#1a1612",
-  "theme_color": "#1a1612",
-  "description": "On-site builder helpers: spirit level, slope calc, and balustrade bay layout.",
+  "background_color": "#f3f0e8",
+  "theme_color": "#f3f0e8",
+  "description": "Free builder helper: spirit level, slope calc, and balustrade bay layout.",
   "icons": [
     {
       "src": "./icon.svg",

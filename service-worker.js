@@ -1,4 +1,4 @@
-const CACHE = 'chippy-helpers-v1.0.1';
+const CACHE = 'abc-done-v1.1.0';
 const ASSETS = [
   './',
   './index.html',

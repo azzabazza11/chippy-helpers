@@ -1,14 +1,10 @@
-# Chippy Helpers
+# ABC Done! — Free Builder Helper
 
-Phone-first builder helpers: **spirit level**, **slope / fall**, and **balustrade bay layout**.
+Phone-first site tools: **spirit level**, **slope / fall**, and **balustrade bay layout**.
 
-Static HTML/JS — no build step. Intended for Android Chrome via GitHub Pages, Add to Home Screen.
+Formerly Chippy Helpers. Same URL: **https://azzabazza11.github.io/chippy-helpers/**
 
-## Live
-
-Once Pages is enabled on the repo:
-
-**https://azzabazza11.github.io/chippy-helpers/**
+Static HTML/JS — no build step. Android Chrome via GitHub Pages, Add to Home Screen.
 
 ## Local
 
@@ -17,13 +13,13 @@ cd chippy-helpers
 python3 -m http.server 8080
 ```
 
-Open **http://localhost:8080/** — spirit level sensors need a **secure context** (`https://` or `http://localhost`). On a phone over LAN Wi‑Fi, use GitHub Pages HTTPS (or an HTTPS local server) so orientation works.
+Open **http://localhost:8080/** — spirit level sensors need a **secure context** (`https://` or `http://localhost`).
 
 ## Tools
 
 ### Level — Spirit
 
-- Uses `deviceorientation` (permission prompt on some browsers)
+- Uses `deviceorientation`
 - Bubble + roll/pitch degrees
 - **Calibrate** zeros against the current phone attitude
 - Screen wake lock while running
@@ -44,16 +40,7 @@ Open **http://localhost:8080/** — spirit level sensors need a **secure context
 ## Android
 
 1. Open the Pages URL in **Chrome**
-2. Menu → **Add to Home screen** / Install app
-3. For a stuck old cache, use **Reload** on the hub (unregisters the service worker and clears caches)
+2. **Install** / Add to Home screen
+3. Stuck on an old cache? **Reload**
 
-## Files
-
-| File | Role |
-|------|------|
-| `index.html` | Hub + both tools |
-| `manifest.webmanifest` | PWA install |
-| `service-worker.js` | Offline cache; network-first for HTML |
-| `icon.svg` | App icon |
-
-Version: **1.0.1**
+Version: **1.1.0**
