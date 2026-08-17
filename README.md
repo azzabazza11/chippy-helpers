@@ -43,4 +43,4 @@ Open **http://localhost:8080/** — spirit level sensors need a **secure context
 2. **Install** / Add to Home screen
 3. Stuck on an old cache? **Reload**
 
-Version: **1.1.0**
+Version: **1.1.2**

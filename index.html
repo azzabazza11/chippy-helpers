@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
-  <meta name="theme-color" content="#f3f0e8" />
+  <meta name="theme-color" content="#f5f4f0" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -13,6 +13,13 @@
   <link rel="icon" href="./icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="./icon-192.png" />
   <title>ABC Done! — Free Builder Helper</title>
+  <script>
+    (function () {
+      var k = 'abc-done-theme', t = 'system';
+      try { t = localStorage.getItem(k) || 'system'; } catch (_) {}
+      document.documentElement.setAttribute('data-theme', t === 'light' || t === 'dark' ? t : 'system');
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@450;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
@@ -422,7 +429,7 @@
       <a class="btn" href="https://azzabazza11.github.io/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center">More apps</a>
       <button type="button" class="btn" id="btn-reload">Reload</button>
     </div>
-    <p class="ver mono">v1.1.0</p>
+    <p class="ver mono">v1.1.2</p>
   </section>
 
   <!-- LEVEL -->
@@ -580,7 +587,7 @@
 
   <script>
   (() => {
-    const APP_VER = '1.1.0';
+    const APP_VER = '1.1.2';
 
     /* ---------- orientation lock (Level) ---------- */
     async function lockOrientation() {
@@ -1053,6 +1060,6 @@
   })();
   </script>
   <script>window.PWA_INSTALL = { slug: 'chippy-helpers', name: 'ABC Done!' };</script>
-  <script src="./install.js?v=1"></script>
+  <script src="./install.js?v=2"></script>
 </body>
 </html>
