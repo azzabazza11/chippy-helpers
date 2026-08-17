@@ -1,7 +1,8 @@
 {
+  "id": "https://azzabazza11.github.io/chippy-helpers/",
   "name": "ABC Done! — Free Builder Helper",
   "short_name": "ABC Done!",
-  "start_url": "./",
+  "start_url": "./?homescreen=1",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
@@ -10,10 +11,28 @@
   "description": "Free builder helper: spirit level, slope calc, and balustrade bay layout.",
   "icons": [
     {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
       "src": "./icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ]
 }

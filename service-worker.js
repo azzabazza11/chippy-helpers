@@ -1,9 +1,12 @@
-const CACHE = 'abc-done-v1.1.0';
+const CACHE = 'abc-done-v1.1.1';
 const ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './icon.svg'
+  './icon.svg',
+  './icon-192.png',
+  './icon-512.png',
+  './install.js'
 ];
 
 self.addEventListener('install', event => {
