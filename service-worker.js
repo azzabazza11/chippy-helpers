@@ -1,4 +1,4 @@
-const CACHE = 'abc-done-v1.1.2';
+const CACHE = 'abc-done-v1.2.0';
 const ASSETS = [
   './',
   './index.html',

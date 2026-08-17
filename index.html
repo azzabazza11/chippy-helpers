@@ -25,25 +25,90 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@450;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #f3f0e8;
-      --paper: #fffcf7;
-      --ink: #161411;
-      --muted: #5f5a53;
-      --line: #ddd6c8;
-      --accent: #123c32;
+      color-scheme: light;
+      --bg: #f5f4f0;
+      --surface: #ffffff;
+      --surface-2: #faf9f6;
+      --ink: #141614;
+      --muted: #6b6962;
+      --line: #e4e0d6;
+      --accent: #1a5c4a;
+      --accent-soft: rgba(26, 92, 74, 0.1);
       --ok: #1b6b45;
       --bad: #b42318;
-      --timber: #123c32;
-      --timber-hot: #161411;
-      --panel: #fffcf7;
-      --bg0: #f3f0e8;
-      --bg1: #f3f0e8;
+      --warn-bg: #fdf0ee;
+      --warn-line: #f0c4c0;
+      --warn-ink: #7a1c16;
+      --ok-line: #b7dcc8;
+      --bad-line: #f0c4c0;
+      --track: #e6e0d6;
+      --shadow: 0 1px 2px rgba(20, 22, 20, 0.04), 0 10px 28px rgba(20, 22, 20, 0.06);
+      --viz-post: #8a734a;
+      --viz-rail: #d4b87a;
+      --viz-bal: #c4a574;
+      --paper: var(--surface);
+      --bg0: var(--bg);
+      --bg1: var(--bg);
+      --timber: var(--accent);
+      --timber-hot: var(--ink);
+      --panel: var(--surface);
       --safe-t: env(safe-area-inset-top, 0px);
       --safe-b: env(safe-area-inset-bottom, 0px);
       --safe-l: env(safe-area-inset-left, 0px);
       --safe-r: env(safe-area-inset-right, 0px);
-      --radius: 20px;
+      --radius: 16px;
+      --radius-lg: 22px;
       --tap: 48px;
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #0e100e;
+      --surface: #181b18;
+      --surface-2: #1f231f;
+      --ink: #f2f0ea;
+      --muted: #9a978f;
+      --line: #2a2e2a;
+      --accent: #4db896;
+      --accent-soft: rgba(77, 184, 150, 0.14);
+      --ok: #5ecf98;
+      --bad: #f07066;
+      --warn-bg: #2a1816;
+      --warn-line: #5c3028;
+      --warn-ink: #f0b0a8;
+      --ok-line: #2a4a38;
+      --bad-line: #5c3028;
+      --track: #2a2e2a;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.22), 0 10px 28px rgba(0, 0, 0, 0.34);
+      --viz-post: #a68962;
+      --viz-rail: #c9ad78;
+      --viz-bal: #b89a6e;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root[data-theme="system"] {
+        color-scheme: dark;
+        --bg: #0e100e;
+        --surface: #181b18;
+        --surface-2: #1f231f;
+        --ink: #f2f0ea;
+        --muted: #9a978f;
+        --line: #2a2e2a;
+        --accent: #4db896;
+        --accent-soft: rgba(77, 184, 150, 0.14);
+        --ok: #5ecf98;
+        --bad: #f07066;
+        --warn-bg: #2a1816;
+        --warn-line: #5c3028;
+        --warn-ink: #f0b0a8;
+        --ok-line: #2a4a38;
+        --bad-line: #5c3028;
+        --track: #2a2e2a;
+        --shadow: 0 1px 2px rgba(0, 0, 0, 0.22), 0 10px 28px rgba(0, 0, 0, 0.34);
+        --viz-post: #a68962;
+        --viz-rail: #c9ad78;
+        --viz-bal: #b89a6e;
+      }
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -54,13 +119,14 @@
       color: var(--ink);
       font-family: "Outfit", system-ui, sans-serif;
       font-weight: 450;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
     body {
       padding:
-        calc(12px + var(--safe-t))
-        calc(16px + var(--safe-r))
-        calc(20px + var(--safe-b))
-        calc(16px + var(--safe-l));
+        calc(14px + var(--safe-t))
+        calc(18px + var(--safe-r))
+        calc(24px + var(--safe-b))
+        calc(18px + var(--safe-l));
     }
     button, input, select { font: inherit; color: inherit; }
     button {
@@ -70,62 +136,86 @@
     }
     .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
 
-    .screen { display: none; animation: fade .22s ease; }
+    .screen { display: none; animation: fade .24s ease; }
     .screen.active { display: block; }
     @keyframes fade {
-      from { opacity: 0; transform: translateY(6px); }
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: none; }
     }
 
     .topbar {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 18px;
+      gap: 12px;
+      margin-bottom: 20px;
       min-height: var(--tap);
     }
     .topbar h1, .topbar h2 {
       margin: 0;
       flex: 1;
       font-family: "Fraunces", Georgia, serif;
-      font-size: 1.55rem;
+      font-size: 1.6rem;
       font-weight: 600;
       letter-spacing: -0.03em;
     }
     .brand-mark {
-      width: 42px;
-      height: 42px;
+      width: 44px;
+      height: 44px;
       border-radius: 14px;
-      background: var(--paper);
+      background: var(--surface);
       border: 1px solid var(--line);
+      box-shadow: var(--shadow);
       display: grid;
       place-items: center;
       flex-shrink: 0;
     }
     .brand-mark svg { width: 26px; height: 26px; }
+    .brand-mark .accent-stroke { stroke: var(--accent); fill: none; }
+    .brand-mark .accent-fill { fill: var(--accent); }
 
     .btn {
       min-height: var(--tap);
-      padding: 0 16px;
+      padding: 0 18px;
       border-radius: 999px;
-      background: var(--paper);
+      background: var(--surface);
       border: 1px solid var(--line);
       font-weight: 600;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      transition: transform 0.12s ease, background-color 0.2s ease, border-color 0.2s ease;
     }
     .btn:active { transform: scale(0.98); }
     .btn-primary {
-      background: var(--ink);
-      color: var(--paper);
-      border-color: var(--ink);
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
     }
-    .btn-ghost { background: transparent; border-color: transparent; }
+    .btn-ghost {
+      background: transparent;
+      border-color: transparent;
+      box-shadow: none;
+      min-width: var(--tap);
+      padding: 0 12px;
+    }
+    .btn-icon {
+      width: var(--tap);
+      min-width: var(--tap);
+      padding: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      color: var(--muted);
+    }
+    .btn-icon svg { width: 22px; height: 22px; }
     .btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
 
     .lede {
-      margin: 0 0 22px;
+      margin: 0 0 24px;
       color: var(--muted);
-      font-size: 1.05rem;
-      line-height: 1.45;
+      font-size: 1.02rem;
+      line-height: 1.5;
       max-width: 28rem;
     }
 
@@ -134,59 +224,126 @@
       gap: 12px;
     }
     .tile {
+      display: flex;
+      align-items: center;
+      gap: 14px;
       text-align: left;
-      padding: 22px 20px;
-      border-radius: var(--radius);
-      background: var(--paper);
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      background: var(--surface);
       border: 1px solid var(--line);
-      min-height: 108px;
+      box-shadow: var(--shadow);
+      min-height: 96px;
+      transition: transform 0.12s ease, border-color 0.2s ease;
     }
+    .tile:active { transform: scale(0.99); }
+    .tile-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      font-size: 1.35rem;
+    }
+    .tile-body { flex: 1; min-width: 0; }
     .tile strong {
       display: block;
       font-family: "Fraunces", Georgia, serif;
-      font-size: 1.5rem;
+      font-size: 1.28rem;
       font-weight: 600;
       letter-spacing: -0.03em;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
-    .tile span { color: var(--muted); line-height: 1.4; }
+    .tile span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.4;
+      font-size: 0.94rem;
+    }
+    .tile-chevron {
+      color: var(--muted);
+      opacity: 0.45;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
 
     .seg {
       display: grid;
-      grid-template-columns: 1fr 1fr;
       gap: 4px;
       padding: 4px;
-      background: var(--paper);
+      background: var(--surface-2);
       border-radius: 999px;
       margin-bottom: 16px;
       border: 1px solid var(--line);
     }
+    .seg.cols-2 { grid-template-columns: 1fr 1fr; }
+    .seg.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
     .seg button {
-      min-height: 44px;
+      min-height: 42px;
       border-radius: 999px;
       font-weight: 600;
       color: var(--muted);
+      font-size: 0.92rem;
+      transition: background-color 0.15s ease, color 0.15s ease;
     }
     .seg button.active {
-      background: var(--ink);
-      color: var(--paper);
+      background: var(--surface);
+      color: var(--ink);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
     }
 
     .card {
-      background: var(--paper);
+      background: var(--surface);
       border: 1px solid var(--line);
-      border-radius: var(--radius);
+      border-radius: var(--radius-lg);
       padding: 18px;
       margin-bottom: 14px;
+      box-shadow: var(--shadow);
     }
     .card h3 {
       margin: 0 0 12px;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--muted);
       font-weight: 700;
     }
+
+    .settings-list {
+      display: grid;
+      gap: 8px;
+    }
+    .settings-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      min-height: var(--tap);
+      padding: 0 16px;
+      border-radius: var(--radius);
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      text-align: left;
+      font-weight: 600;
+      transition: background-color 0.15s ease;
+    }
+    .settings-item:active { background: var(--accent-soft); }
+    .settings-item .si-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      font-size: 1rem;
+    }
+    .settings-item .si-label { flex: 1; }
+    .settings-item .si-chevron { color: var(--muted); opacity: 0.45; }
 
     .field {
       display: grid;
@@ -214,6 +371,7 @@
       font-size: 1.15rem;
       font-weight: 600;
       width: 100%;
+      transition: border-color 0.15s ease, background-color 0.2s ease;
     }
     .field input:focus, .field select:focus {
       outline: 2px solid var(--accent);
@@ -230,7 +388,7 @@
       gap: 10px;
     }
     .stat {
-      background: var(--bg);
+      background: var(--surface-2);
       border-radius: 14px;
       padding: 14px 16px;
       border: 1px solid var(--line);
@@ -250,17 +408,17 @@
       letter-spacing: -0.02em;
     }
     .stat.big .v { font-size: 2rem; color: var(--accent); }
-    .stat.ok { border-color: #b7dcc8; }
-    .stat.bad { border-color: #f0c4c0; }
+    .stat.ok { border-color: var(--ok-line); }
+    .stat.bad { border-color: var(--bad-line); }
     .stat.ok .v { color: var(--ok); }
     .stat.bad .v { color: var(--bad); }
     .warn {
       margin-top: 10px;
       padding: 12px 14px;
       border-radius: 12px;
-      background: #fbecea;
-      border: 1px solid #f0c4c0;
-      color: #7a1c16;
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-line);
+      color: var(--warn-ink);
       font-size: 0.95rem;
       line-height: 1.35;
       display: none;
@@ -281,13 +439,14 @@
       border: 2px solid var(--accent);
       position: relative;
       overflow: hidden;
+      box-shadow: var(--shadow);
     }
     .bubble-stage::before {
       content: "";
       position: absolute;
       inset: 18%;
       border-radius: 50%;
-      border: 1px dashed rgba(255,252,247,.28);
+      border: 1px dashed rgba(255, 252, 247, 0.28);
       pointer-events: none;
     }
     .crosshair {
@@ -298,7 +457,7 @@
     .crosshair::before, .crosshair::after {
       content: "";
       position: absolute;
-      background: rgba(255,252,247,.28);
+      background: rgba(255, 252, 247, 0.28);
     }
     .crosshair::before { left: 50%; top: 8%; bottom: 8%; width: 1px; transform: translateX(-50%); }
     .crosshair::after { top: 50%; left: 8%; right: 8%; height: 1px; transform: translateY(-50%); }
@@ -308,7 +467,7 @@
       width: 56px; height: 56px;
       margin: -28px 0 0 -28px;
       border-radius: 50%;
-      border: 2px solid rgba(255,252,247,.45);
+      border: 2px solid rgba(255, 252, 247, 0.45);
       pointer-events: none;
     }
     .bubble {
@@ -331,7 +490,7 @@
       gap: 10px;
     }
     .axis {
-      background: var(--bg);
+      background: var(--surface-2);
       border-radius: 12px;
       padding: 10px 12px;
       border: 1px solid var(--line);
@@ -347,7 +506,7 @@
     .track {
       height: 14px;
       border-radius: 999px;
-      background: #e6e0d6;
+      background: var(--track);
       position: relative;
       overflow: hidden;
     }
@@ -356,7 +515,7 @@
       top: 0; bottom: 0;
       left: 50%;
       width: 2px;
-      background: var(--timber);
+      background: var(--accent);
       transform-origin: center;
     }
     .sensor-status {
@@ -367,17 +526,12 @@
     }
     .sensor-status.error { color: var(--bad); }
 
-    .footer-tools {
-      margin-top: 22px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
     .ver {
-      margin-top: 18px;
+      margin-top: 8px;
       color: var(--muted);
       font-size: 0.78rem;
       opacity: 0.7;
+      text-align: center;
     }
 
     /* Balustrade SVG */
@@ -385,7 +539,7 @@
       width: 100%;
       overflow: hidden;
       border-radius: 12px;
-      background: var(--bg);
+      background: var(--surface-2);
       border: 1px solid var(--line);
       padding: 10px;
     }
@@ -408,28 +562,35 @@
   <section id="hub" class="screen active" aria-label="ABC Done! home">
     <div class="topbar">
       <div class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 32 32" fill="none"><rect x="4" y="12" width="24" height="8" rx="4" stroke="#123c32" stroke-width="2"/><circle cx="16" cy="16" r="2.5" fill="#123c32"/></svg>
+        <svg viewBox="0 0 32 32" fill="none"><rect class="accent-stroke" x="4" y="12" width="24" height="8" rx="4" stroke-width="2"/><circle class="accent-fill" cx="16" cy="16" r="2.5"/></svg>
       </div>
       <h1>ABC Done!</h1>
+      <button type="button" class="btn-icon" data-nav="settings" aria-label="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+      </button>
     </div>
-    <p class="lede">Free builder helper — on-site tools for the phone in your pouch. Level a surface or knock out a balustrade bay layout.</p>
+    <p class="lede">Free builder helper — on-site tools for the phone in your pouch.</p>
     <div class="tiles">
       <button type="button" class="tile" data-nav="level">
-        <strong>Level</strong>
-        <span>Spirit bubble from phone sensors, plus rise/run slope &amp; fall.</span>
+        <div class="tile-icon" aria-hidden="true">◎</div>
+        <div class="tile-body">
+          <strong>Level</strong>
+          <span>Spirit bubble from phone sensors, plus rise/run slope &amp; fall.</span>
+        </div>
+        <span class="tile-chevron" aria-hidden="true">›</span>
       </button>
       <button type="button" class="tile" data-nav="balustrade">
-        <strong>Balustrade</strong>
-        <span>Bay layout: posts, equal baluster gaps, max 100&nbsp;mm clear.</span>
+        <div class="tile-icon" aria-hidden="true">▥</div>
+        <div class="tile-body">
+          <strong>Balustrade</strong>
+          <span>Bay layout: posts, equal baluster gaps, max 100&nbsp;mm clear.</span>
+        </div>
+        <span class="tile-chevron" aria-hidden="true">›</span>
       </button>
     </div>
-    <div class="footer-tools">
-      <button type="button" class="btn" id="btn-share">Share</button>
-      <button type="button" class="btn" id="btn-install">Install</button>
-      <a class="btn" href="https://azzabazza11.github.io/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center">More apps</a>
-      <button type="button" class="btn" id="btn-reload">Reload</button>
-    </div>
-    <p class="ver mono">v1.1.2</p>
   </section>
 
   <!-- LEVEL -->
@@ -438,7 +599,7 @@
       <button type="button" class="btn btn-ghost" data-nav="hub" aria-label="Back">←</button>
       <h2>Level</h2>
     </div>
-    <div class="seg" role="tablist" aria-label="Level mode">
+    <div class="seg cols-2" role="tablist" aria-label="Level mode">
       <button type="button" class="active" data-level-mode="spirit" role="tab" aria-selected="true">Spirit</button>
       <button type="button" data-level-mode="slope" role="tab" aria-selected="false">Slope</button>
     </div>
@@ -529,7 +690,7 @@
         <span class="hint">Centre-to-centre of end posts (includes end posts in the run).</span>
         <input id="run-length" type="number" inputmode="decimal" value="3600" min="1" step="1" />
       </div>
-      <div class="seg" role="tablist" aria-label="Post spacing mode" style="margin-top:8px">
+      <div class="seg cols-2" role="tablist" aria-label="Post spacing mode" style="margin-top:8px">
         <button type="button" class="active" data-post-mode="centres" role="tab">Post centres</button>
         <button type="button" data-post-mode="bays" role="tab">Bay count</button>
       </div>
@@ -585,9 +746,91 @@
     </div>
   </section>
 
+  <!-- SETTINGS -->
+  <section id="settings" class="screen" aria-label="Settings">
+    <div class="topbar">
+      <button type="button" class="btn btn-ghost" data-nav="hub" aria-label="Back">←</button>
+      <h2>Settings</h2>
+    </div>
+
+    <div class="card">
+      <h3>Appearance</h3>
+      <div class="seg cols-3" role="group" aria-label="Theme">
+        <button type="button" data-theme-pick="light">Light</button>
+        <button type="button" data-theme-pick="dark">Dark</button>
+        <button type="button" data-theme-pick="system" class="active">Auto</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>App</h3>
+      <div class="settings-list">
+        <button type="button" class="settings-item" id="btn-install">
+          <span class="si-icon" aria-hidden="true">⬇</span>
+          <span class="si-label">Install app</span>
+          <span class="si-chevron" aria-hidden="true">›</span>
+        </button>
+        <button type="button" class="settings-item" id="btn-share">
+          <span class="si-icon" aria-hidden="true">↗</span>
+          <span class="si-label">Share link</span>
+          <span class="si-chevron" aria-hidden="true">›</span>
+        </button>
+        <a class="settings-item" href="https://azzabazza11.github.io/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit">
+          <span class="si-icon" aria-hidden="true">⊞</span>
+          <span class="si-label">More apps</span>
+          <span class="si-chevron" aria-hidden="true">›</span>
+        </a>
+        <button type="button" class="settings-item" id="btn-reload">
+          <span class="si-icon" aria-hidden="true">↻</span>
+          <span class="si-label">Reload &amp; clear cache</span>
+          <span class="si-chevron" aria-hidden="true">›</span>
+        </button>
+      </div>
+    </div>
+
+    <p class="ver mono">ABC Done! v1.2.0</p>
+  </section>
+
   <script>
   (() => {
-    const APP_VER = '1.1.2';
+    const APP_VER = '1.2.0';
+    const THEME_KEY = 'abc-done-theme';
+    let themePref = 'system';
+
+    function isDarkTheme() {
+      if (themePref === 'dark') return true;
+      if (themePref === 'light') return false;
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+
+    function applyTheme() {
+      document.documentElement.setAttribute('data-theme', themePref);
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.content = isDarkTheme() ? '#0e100e' : '#f5f4f0';
+      document.querySelectorAll('[data-theme-pick]').forEach(btn => {
+        const on = btn.getAttribute('data-theme-pick') === themePref;
+        btn.classList.toggle('active', on);
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+    }
+
+    function setTheme(next) {
+      themePref = next;
+      try { localStorage.setItem(THEME_KEY, next); } catch (_) {}
+      applyTheme();
+      if (document.getElementById('balustrade').classList.contains('active')) calcBalustrade();
+    }
+
+    try { themePref = localStorage.getItem(THEME_KEY) || 'system'; } catch (_) {}
+    applyTheme();
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (themePref === 'system') applyTheme();
+      });
+    }
+    document.querySelectorAll('[data-theme-pick]').forEach(btn => {
+      btn.addEventListener('click', () => setTheme(btn.getAttribute('data-theme-pick')));
+    });
 
     /* ---------- orientation lock (Level) ---------- */
     async function lockOrientation() {
@@ -616,7 +859,8 @@
     const screens = {
       hub: document.getElementById('hub'),
       level: document.getElementById('level'),
-      balustrade: document.getElementById('balustrade')
+      balustrade: document.getElementById('balustrade'),
+      settings: document.getElementById('settings')
     };
 
     function showScreen(id) {
@@ -989,7 +1233,14 @@
       renderBay(opening, balW, n, gap, postW);
     }
 
+    function cssVar(name) {
+      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    }
+
     function renderBay(opening, balW, n, gap, postW) {
+      const postColor = cssVar('--viz-post') || '#8a734a';
+      const railColor = cssVar('--viz-rail') || '#d4b87a';
+      const balColor = cssVar('--viz-bal') || '#c4a574';
       const H = 120;
       const postDraw = Math.max(12, Math.min(28, postW * 0.25));
       const totalW = postDraw * 2 + opening;
@@ -1004,16 +1255,16 @@
       let bals = '';
       for (let i = 0; i < n; i++) {
         x += g;
-        bals += `<rect x="${x.toFixed(2)}" y="18" width="${bw.toFixed(2)}" height="84" rx="1.5" fill="#c4a574"/>`;
+        bals += `<rect x="${x.toFixed(2)}" y="18" width="${bw.toFixed(2)}" height="84" rx="1.5" fill="${balColor}"/>`;
         x += bw;
       }
 
       const svg = `
 <svg viewBox="0 0 ${W.toFixed(2)} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="One bay elevation">
-  <rect x="0" y="10" width="${pw.toFixed(2)}" height="100" fill="#8a734a"/>
-  <rect x="${(W - pw).toFixed(2)}" y="10" width="${pw.toFixed(2)}" height="100" fill="#8a734a"/>
-  <rect x="${pw.toFixed(2)}" y="14" width="${open.toFixed(2)}" height="8" fill="#e0c08a"/>
-  <rect x="${pw.toFixed(2)}" y="98" width="${open.toFixed(2)}" height="8" fill="#e0c08a"/>
+  <rect x="0" y="10" width="${pw.toFixed(2)}" height="100" fill="${postColor}"/>
+  <rect x="${(W - pw).toFixed(2)}" y="10" width="${pw.toFixed(2)}" height="100" fill="${postColor}"/>
+  <rect x="${pw.toFixed(2)}" y="14" width="${open.toFixed(2)}" height="8" fill="${railColor}"/>
+  <rect x="${pw.toFixed(2)}" y="98" width="${open.toFixed(2)}" height="8" fill="${railColor}"/>
   ${bals}
 </svg>`;
       document.getElementById('bay-viz').innerHTML = svg;
