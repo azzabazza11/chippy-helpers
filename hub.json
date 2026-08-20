@@ -6,14 +6,31 @@
   "desc": "Free builder helper: spirit level, slope / fall calculator, and balustrade bay layout. Phone-first, works offline.",
   "accent": "#123c32",
   "icon": "📐",
-  "platforms": ["android", "ios"],
+  "iconPath": "icon.svg",
+  "platforms": [
+    "android",
+    "ios"
+  ],
   "status": "live",
   "installable": true,
   "desktopUrl": "https://azzabazza11.github.io/chippy-helpers/",
   "appUrl": "https://azzabazza11.github.io/chippy-helpers/",
-  "tags": ["builder", "level", "balustrade", "pwa"],
+  "tags": [
+    "builder",
+    "level",
+    "balustrade",
+    "pwa"
+  ],
   "changelog": [
-    {"version": "1.2.0", "date": "2026-08-17", "notes": "Refresh the app UI and add theme settings."},
-    {"version": "1.1.1", "date": "2026-08-17", "notes": "Treat the /apps/ hub as a separate PWA when offering install."}
+    {
+      "version": "1.2.0",
+      "date": "2026-08-17",
+      "notes": "Refresh the app UI and add theme settings."
+    },
+    {
+      "version": "1.1.1",
+      "date": "2026-08-17",
+      "notes": "Treat the /apps/ hub as a separate PWA when offering install."
+    }
   ]
 }
