@@ -1,6 +1,6 @@
 # ABC Done! — Free Builder Helper
 
-Phone-first site tools: **spirit level**, **camera level overlay**, **slope / fall**, and **balustrade bay layout**.
+Phone-first site tools: **spirit level**, **slope / fall**, and **balustrade bay layout**.
 
 Formerly Chippy Helpers. Same URL: **https://azzabazza11.github.io/chippy-helpers/**
 
@@ -24,14 +24,6 @@ Open **http://localhost:8080/** — spirit level sensors need a **secure context
 - **Calibrate** zeros against the current phone attitude
 - Screen wake lock while running
 
-### Level — Video
-
-- Rear camera preview (falls back to any camera)
-- Gravity-true horizon and plumb cross over the live picture — the line counter-rotates so it stays world-level as you turn the phone
-- Line the cross up with a sill, lintel, or post — green when the phone is level
-- **Calibrate** zeros the overlay against the current attitude
-- Camera stops when you leave Level or background the app
-
 ### Level — Slope
 
 - Rise/fall and run (mm) → % grade, 1:x, angle, fall per metre
@@ -51,4 +43,4 @@ Open **http://localhost:8080/** — spirit level sensors need a **secure context
 2. **Install** / Add to Home screen
 3. Stuck on an old cache? **Reload**
 
-Version: **1.3.1**
+Version: **1.4.0**

@@ -8,7 +8,7 @@
   "orientation": "any",
   "background_color": "#f3f0e8",
   "theme_color": "#f3f0e8",
-  "description": "Free builder helper: spirit level, camera level overlay, slope calc, and balustrade bay layout.",
+  "description": "Free builder helper: spirit level, slope calc, and balustrade bay layout.",
   "icons": [
     {
       "src": "./icon-192.png",
