@@ -27,7 +27,7 @@ Open **http://localhost:8080/** — spirit level sensors need a **secure context
 ### Level — Video
 
 - Rear camera preview (falls back to any camera)
-- Gravity-true horizon and plumb cross over the live picture
+- Gravity-true horizon and plumb cross over the live picture — the line counter-rotates so it stays world-level as you turn the phone
 - Line the cross up with a sill, lintel, or post — green when the phone is level
 - **Calibrate** zeros the overlay against the current attitude
 - Camera stops when you leave Level or background the app
@@ -51,4 +51,4 @@ Open **http://localhost:8080/** — spirit level sensors need a **secure context
 2. **Install** / Add to Home screen
 3. Stuck on an old cache? **Reload**
 
-Version: **1.3.0**
+Version: **1.3.1**
