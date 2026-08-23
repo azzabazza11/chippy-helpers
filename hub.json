@@ -1,9 +1,9 @@
 {
   "id": "chippy-helpers",
   "title": "ABC Done!",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "category": "Tools",
-  "desc": "Free builder helper: spirit level, slope / fall calculator, and balustrade bay layout. Phone-first, works offline.",
+  "desc": "Free builder helper: spirit level, camera level overlay, slope / fall calculator, and balustrade bay layout. Phone-first, works offline.",
   "accent": "#123c32",
   "icon": "📐",
   "iconPath": "icon.svg",
@@ -18,10 +18,16 @@
   "tags": [
     "builder",
     "level",
+    "camera",
     "balustrade",
     "pwa"
   ],
   "changelog": [
+    {
+      "version": "1.3.0",
+      "date": "2026-08-22",
+      "notes": "Add a camera level overlay: live video with a gravity-true horizon and plumb cross."
+    },
     {
       "version": "1.2.0",
       "date": "2026-08-17",
