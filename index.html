@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="ABC Done!" />
-  <meta name="description" content="On-site builder tools: spirit level, camera level overlay, slope calc, and balustrade bay layout." />
+  <meta name="description" content="On-site builder tools: spirit level, slope calc, and balustrade bay layout." />
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="icon" href="./icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="./icon-192.png" />
@@ -526,129 +526,6 @@
     }
     .sensor-status.error { color: var(--bad); }
 
-    /* Camera level overlay */
-    .video-card { padding: 10px; }
-    .video-stage {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 3 / 4;
-      max-height: 68vh;
-      border-radius: 16px;
-      overflow: hidden;
-      background: #121816;
-      border: 2px solid var(--line);
-      transition: border-color 0.2s ease;
-    }
-    .video-stage.live { border-color: var(--accent); }
-    .video-stage.levelled { border-color: var(--ok); }
-    .video-stage video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      background: #121816;
-    }
-    .video-ph {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      padding: 28px;
-      text-align: center;
-      color: rgba(255, 252, 247, 0.58);
-      font-size: 0.96rem;
-      line-height: 1.45;
-      pointer-events: none;
-    }
-    .video-stage.live .video-ph { display: none; }
-    .video-hud {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-    .video-cross {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 220%;
-      height: 220%;
-      transform: translate(-50%, -50%);
-      transform-origin: center center;
-      will-change: transform;
-    }
-    .video-line {
-      position: absolute;
-      background: #fffdf8;
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.55), 0 0 10px rgba(0, 0, 0, 0.28);
-    }
-    .video-h {
-      left: 8%;
-      right: 8%;
-      top: 50%;
-      height: 3px;
-      margin-top: -1.5px;
-    }
-    .video-v {
-      top: 8%;
-      bottom: 8%;
-      left: 50%;
-      width: 3px;
-      margin-left: -1.5px;
-    }
-    .video-h::before, .video-h::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      width: 10px;
-      height: 10px;
-      margin-top: -5px;
-      border-top: 2px solid #fffdf8;
-      border-right: 2px solid #fffdf8;
-    }
-    .video-h::before { left: 18%; transform: rotate(-45deg); }
-    .video-h::after { right: 18%; transform: rotate(135deg); }
-    .video-ring {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 54px;
-      height: 54px;
-      margin: -27px 0 0 -27px;
-      border-radius: 50%;
-      border: 2px solid #fffdf8;
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.45);
-      background: transparent;
-    }
-    .video-cross.levelled .video-line {
-      background: #5ecf98;
-    }
-    .video-cross.levelled .video-ring {
-      border-color: #5ecf98;
-    }
-    .video-cross.levelled .video-h::before,
-    .video-cross.levelled .video-h::after {
-      border-color: #5ecf98;
-    }
-    .video-badge {
-      position: absolute;
-      left: 12px;
-      right: 12px;
-      bottom: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 10px 14px;
-      border-radius: 12px;
-      background: rgba(12, 16, 14, 0.64);
-      color: #fffdf8;
-      backdrop-filter: blur(8px);
-      font-weight: 700;
-    }
-    .video-badge .mono { font-size: 1.4rem; letter-spacing: -0.03em; }
-    .video-badge .st { font-size: 0.92rem; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.9; }
-    .video-stage.levelled .video-badge { background: rgba(27, 107, 69, 0.82); }
-
     .ver {
       margin-top: 8px;
       color: var(--muted);
@@ -677,7 +554,6 @@
     @media (orientation: landscape) and (max-height: 500px) {
       .bubble-stage { width: min(42vh, 220px); }
       .spirit-wrap { grid-template-columns: auto 1fr; align-items: center; }
-      .video-stage { aspect-ratio: 16 / 9; max-height: 56vh; }
     }
   </style>
 </head>
@@ -702,7 +578,7 @@
         <div class="tile-icon" aria-hidden="true">◎</div>
         <div class="tile-body">
           <strong>Level</strong>
-          <span>Spirit bubble, camera overlay, plus rise/run slope &amp; fall.</span>
+          <span>Spirit bubble from phone sensors, plus rise/run slope &amp; fall.</span>
         </div>
         <span class="tile-chevron" aria-hidden="true">›</span>
       </button>
@@ -723,9 +599,8 @@
       <button type="button" class="btn btn-ghost" data-nav="hub" aria-label="Back">←</button>
       <h2>Level</h2>
     </div>
-    <div class="seg cols-3" role="tablist" aria-label="Level mode">
+    <div class="seg cols-2" role="tablist" aria-label="Level mode">
       <button type="button" class="active" data-level-mode="spirit" role="tab" aria-selected="true">Spirit</button>
-      <button type="button" data-level-mode="video" role="tab" aria-selected="false">Video</button>
       <button type="button" data-level-mode="slope" role="tab" aria-selected="false">Slope</button>
     </div>
 
@@ -752,31 +627,6 @@
         <div class="btn-row">
           <button type="button" class="btn btn-primary" id="btn-sensor">Start</button>
           <button type="button" class="btn" id="btn-calibrate">Calibrate</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="mode-video" class="mode-pane">
-      <div class="card video-card">
-        <div class="video-stage" id="video-stage">
-          <video id="video-feed" playsinline webkit-playsinline muted autoplay></video>
-          <div class="video-ph" id="video-ph">Tap Start and point the camera at a sill, lintel, or post. The cross stays true-level.</div>
-          <div class="video-hud" aria-hidden="true">
-            <div class="video-cross" id="video-cross">
-              <div class="video-line video-h"></div>
-              <div class="video-line video-v"></div>
-              <div class="video-ring"></div>
-            </div>
-          </div>
-          <div class="video-badge" id="video-badge" aria-live="polite">
-            <span class="mono" id="video-angle">—</span>
-            <span class="st" id="video-state">Off</span>
-          </div>
-        </div>
-        <p class="sensor-status" id="video-status">Live camera with a gravity-true horizon and plumb line.</p>
-        <div class="btn-row">
-          <button type="button" class="btn btn-primary" id="btn-video">Start</button>
-          <button type="button" class="btn" id="btn-video-calibrate">Calibrate</button>
         </div>
       </div>
     </div>
@@ -938,12 +788,12 @@
       </div>
     </div>
 
-    <p class="ver mono">ABC Done! v1.3.1</p>
+    <p class="ver mono">ABC Done! v1.4.0</p>
   </section>
 
   <script>
   (() => {
-    const APP_VER = '1.3.1';
+    const APP_VER = '1.4.0';
     const THEME_KEY = 'abc-done-theme';
     let themePref = 'system';
 
@@ -1021,10 +871,7 @@
         lockOrientation();
       } else {
         unlockOrientation();
-        videoWanted = false;
-        stopCameraOnly();
-        stopSensors(true);
-        syncVideoChrome();
+        stopSensors();
       }
       if (id === 'level' && levelMode === 'spirit' && sensorWanted) startSensors();
       if (id === 'balustrade') calcBalustrade();
@@ -1046,17 +893,9 @@
           b.setAttribute('aria-selected', on ? 'true' : 'false');
         });
         document.getElementById('mode-spirit').classList.toggle('active', levelMode === 'spirit');
-        document.getElementById('mode-video').classList.toggle('active', levelMode === 'video');
         document.getElementById('mode-slope').classList.toggle('active', levelMode === 'slope');
         if (levelMode === 'spirit' && sensorWanted) startSensors();
-        else if (levelMode === 'video' && videoWanted) startVideo();
-        else {
-          stopCameraOnly();
-          if (!(levelMode === 'spirit' && sensorWanted) && !(levelMode === 'video' && videoWanted)) {
-            stopSensors();
-          }
-        }
-        if (levelMode !== 'video') stopCameraOnly();
+        else if (levelMode !== 'spirit') stopSensors();
         if (levelMode === 'slope') calcSlope();
       });
     });
@@ -1073,148 +912,10 @@
     let sensorWanted = false;
     let sensorListening = false;
     let wakeLock = null;
-    let calib = { beta: 0, gamma: 0, videoRoll: 0 };
+    let calib = { beta: 0, gamma: 0 };
     let lastOrient = null;
     const LEVEL_TOL = 0.4; // degrees
     const MAX_TILT = 25; // visual clamp
-
-    const videoStage = document.getElementById('video-stage');
-    const videoFeed = document.getElementById('video-feed');
-    const videoCross = document.getElementById('video-cross');
-    const videoAngle = document.getElementById('video-angle');
-    const videoState = document.getElementById('video-state');
-    const videoStatus = document.getElementById('video-status');
-    const btnVideo = document.getElementById('btn-video');
-    let videoWanted = false;
-    let videoStream = null;
-
-    function setVideoStatus(msg, isError) {
-      videoStatus.textContent = msg;
-      videoStatus.classList.toggle('error', !!isError);
-    }
-
-    function screenAngle() {
-      if (screen.orientation && typeof screen.orientation.angle === 'number') {
-        return screen.orientation.angle;
-      }
-      if (typeof window.orientation === 'number') return window.orientation;
-      return 0;
-    }
-
-    // Screen-plane roll from gravity: 0 = phone top points world-up.
-    // Using only gamma (or landscape-mapped beta) keeps the cross glued to the
-    // phone when you clock-rotate it; atan2 of the gravity xy components
-    // tracks that turn so we can counter-rotate the overlay.
-    function uncompensatedVideoRoll(beta, gamma) {
-      const b = (Number(beta) || 0) * Math.PI / 180;
-      const g = (Number(gamma) || 0) * Math.PI / 180;
-      // Device-frame "up" from W3C Z-X'-Y'' (beta, gamma). Alpha is yaw.
-      const gx = Math.sin(g);
-      const gy = -Math.sin(b) * Math.cos(g);
-      const roll = Math.atan2(gx, -gy) * 180 / Math.PI;
-      return roll - screenAngle();
-    }
-
-    function videoRollDeg(beta, gamma) {
-      return uncompensatedVideoRoll(beta, gamma) - (calib.videoRoll || 0);
-    }
-
-    function applyVideoOverlay(beta, gamma) {
-      const roll = videoRollDeg(beta, gamma);
-      // Opposite of the phone turn: the horizon/plumb stay world-level.
-      videoCross.style.transform = `translate(-50%, -50%) rotate(${-roll}deg)`;
-      const levelled = Math.abs(roll) <= LEVEL_TOL;
-      videoCross.classList.toggle('levelled', levelled);
-      videoAngle.textContent = `${roll.toFixed(1)}°`;
-      if (videoStream) {
-        videoStage.classList.toggle('levelled', levelled);
-        videoState.textContent = levelled ? 'Level' : 'Tilted';
-      }
-    }
-
-    function syncVideoChrome() {
-      const live = !!videoStream;
-      videoStage.classList.toggle('live', live);
-      if (!live) {
-        videoStage.classList.remove('levelled');
-        videoCross.classList.remove('levelled');
-        videoCross.style.transform = 'translate(-50%, -50%)';
-        videoAngle.textContent = '—';
-        videoState.textContent = 'Off';
-        btnVideo.textContent = 'Start';
-      } else {
-        btnVideo.textContent = 'Stop';
-      }
-    }
-
-    function stopCameraOnly() {
-      if (videoStream) {
-        videoStream.getTracks().forEach(track => track.stop());
-        videoStream = null;
-      }
-      videoFeed.srcObject = null;
-      syncVideoChrome();
-    }
-
-    async function openCamera() {
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        throw new Error('no-camera-api');
-      }
-      const attempts = [
-        { audio: false, video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } } },
-        { audio: false, video: { facingMode: 'environment' } },
-        { audio: false, video: true }
-      ];
-      let lastErr;
-      for (const constraints of attempts) {
-        try {
-          return await navigator.mediaDevices.getUserMedia(constraints);
-        } catch (err) {
-          lastErr = err;
-        }
-      }
-      throw lastErr || new Error('camera-failed');
-    }
-
-    async function startVideo() {
-      videoWanted = true;
-      if (!window.isSecureContext) {
-        setVideoStatus('Camera needs HTTPS (or localhost). Open the GitHub Pages URL in Chrome.', true);
-        syncVideoChrome();
-        return;
-      }
-      if (!videoStream) {
-        try {
-          videoStream = await openCamera();
-        } catch (err) {
-          videoStream = null;
-          const denied = err && (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError');
-          const missing = err && (err.name === 'NotFoundError' || err.message === 'no-camera-api');
-          setVideoStatus(
-            denied ? 'Camera permission denied.' :
-            missing ? 'No camera found on this device.' :
-            'Could not open the camera.',
-            true
-          );
-          syncVideoChrome();
-          return;
-        }
-        videoFeed.srcObject = videoStream;
-        try { await videoFeed.play(); } catch (_) { /* autoplay after gesture is usually fine */ }
-      }
-      const res = await attachSensors();
-      if (!res.ok) {
-        setVideoStatus(res.error, true);
-      } else {
-        setVideoStatus(
-          res.locked
-            ? 'Live — the cross stays true-level. Line it up with an edge.'
-            : 'Live — line the cross up with an edge. (Add to Home Screen for rotation lock.)'
-        );
-      }
-      syncVideoChrome();
-      if (lastOrient) applyVideoOverlay(lastOrient.beta, lastOrient.gamma);
-    }
 
     function setStatus(msg, isError) {
       sensorStatus.textContent = msg;
@@ -1246,7 +947,6 @@
         return;
       }
       lastOrient = { beta, gamma };
-      applyVideoOverlay(beta, gamma);
 
       // When phone is nearly flat (screen up), beta≈0 gamma≈0.
       // When upright portrait, beta≈90 — still useful for wall plumb-ish.
@@ -1276,25 +976,25 @@
       pitchBar.style.width = `${Math.abs(pPct)}%`;
     }
 
-    function wantsSensors() {
-      return (levelMode === 'spirit' && sensorWanted) ||
-             (levelMode === 'video' && videoWanted);
-    }
-
-    async function attachSensors() {
+    async function startSensors() {
+      sensorWanted = true;
       if (!window.isSecureContext) {
-        return { ok: false, error: 'Sensors need HTTPS (or localhost). Open the GitHub Pages URL in Chrome.' };
+        setStatus('Sensors need HTTPS (or localhost). Open the GitHub Pages URL in Chrome.', true);
+        btnSensor.textContent = 'Start';
+        return;
       }
       try {
         if (typeof DeviceOrientationEvent !== 'undefined' &&
             typeof DeviceOrientationEvent.requestPermission === 'function') {
           const perm = await DeviceOrientationEvent.requestPermission();
           if (perm !== 'granted') {
-            return { ok: false, error: 'Orientation permission denied.' };
+            setStatus('Orientation permission denied.', true);
+            return;
           }
         }
-      } catch (_) {
-        return { ok: false, error: 'Could not get orientation permission.' };
+      } catch (err) {
+        setStatus('Could not get orientation permission.', true);
+        return;
       }
 
       if (!sensorListening) {
@@ -1304,30 +1004,15 @@
       // User gesture — best chance to lock rotation on Android
       const locked = await lockOrientation();
       await requestWakeLock();
-      return { ok: true, locked };
-    }
-
-    async function startSensors() {
-      sensorWanted = true;
-      const res = await attachSensors();
-      if (!res.ok) {
-        setStatus(res.error, true);
-        btnSensor.textContent = 'Start';
-        return;
-      }
       btnSensor.textContent = 'Stop';
       setStatus(
-        res.locked
+        locked
           ? 'Live — rotation locked. Place phone flat; Calibrate to zero.'
           : 'Live — place phone flat; Calibrate to zero. (Add to Home Screen for rotation lock.)'
       );
     }
 
-    function stopSensors(force) {
-      if (!force && wantsSensors() && sensorListening) {
-        btnSensor.textContent = sensorWanted && levelMode === 'spirit' ? 'Stop' : 'Start';
-        return;
-      }
+    function stopSensors() {
       if (sensorListening) {
         window.removeEventListener('deviceorientation', onOrientation, true);
         sensorListening = false;
@@ -1351,46 +1036,15 @@
         setStatus('Start sensors first, then calibrate.', true);
         return;
       }
-      calib.beta = lastOrient.beta;
-      calib.gamma = lastOrient.gamma;
+      calib = { beta: lastOrient.beta, gamma: lastOrient.gamma };
       setStatus('Calibrated to current attitude.');
     });
 
-    btnVideo.addEventListener('click', () => {
-      if (videoStream || (videoWanted && videoStage.classList.contains('live'))) {
-        videoWanted = false;
-        stopCameraOnly();
-        stopSensors();
-        setVideoStatus('Stopped.');
-        return;
-      }
-      startVideo();
-    });
-
-    document.getElementById('btn-video-calibrate').addEventListener('click', () => {
-      if (!sensorListening || !lastOrient) {
-        setVideoStatus('Start the camera first, then calibrate.', true);
-        return;
-      }
-      calib.videoRoll = uncompensatedVideoRoll(lastOrient.beta, lastOrient.gamma);
-      applyVideoOverlay(lastOrient.beta, lastOrient.gamma);
-      setVideoStatus('Calibrated to current attitude.');
-    });
-
     document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
-        if (sensorWanted && levelMode === 'spirit') requestWakeLock();
-        if (videoWanted && levelMode === 'video') startVideo();
-      } else {
-        stopCameraOnly();
+      if (document.visibilityState === 'visible' && sensorWanted && levelMode === 'spirit') {
+        requestWakeLock();
       }
     });
-
-    if (screen.orientation) {
-      screen.orientation.addEventListener('change', () => {
-        if (lastOrient) applyVideoOverlay(lastOrient.beta, lastOrient.gamma);
-      });
-    }
 
     /* ---------- Slope calc ---------- */
     const slopeRise = document.getElementById('slope-rise');
